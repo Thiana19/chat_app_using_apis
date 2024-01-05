@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/pages/login.dart';
 import 'package:flutter_chat_app/pages/inbox.dart';
+import 'package:flutter_chat_app/pages/settings.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_chat_app/constant.dart';
 import 'package:flutter_chat_app/services/chat_rooms_service.dart';
@@ -124,19 +125,57 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 20),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginPage(),
-                            ),
-                          );
+                      child: RawMaterialButton(
+                        constraints: const BoxConstraints(minWidth: 0),
+                        onPressed: () {
+                          showMenu(
+                            context: context,
+                            position: const RelativeRect.fromLTRB(100, 100, 0, 0), 
+                            items: [
+                              const PopupMenuItem(
+                                value: 'settings',
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.settings, color: Colors.black),
+                                    SizedBox(width: 8), 
+                                    Text('Settings'),
+                                  ],
+                                ),
+                              ),
+                              const PopupMenuItem(
+                                value: 'logout',
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.logout, color: Colors.black),
+                                    SizedBox(width: 8),
+                                    Text('Logout'),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ).then((value) {
+                            if (value == 'settings') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SettingsPage(),
+                                ),
+                              );
+                            } else if (value == 'logout') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginPage(),
+                                ),
+                              );
+                            }
+                          });
                         },
-                        child: const Icon(
-                          Icons.logout,
-                          color: Colors.white,
-                        ),
+                        elevation: 2.0,
+                        fillColor: Colors.transparent,
+                        padding: const EdgeInsets.all(10.0),
+                        shape: const CircleBorder(),
+                        child: const Icon(Icons.more_horiz, size: 18, color: Colors.white),
                       ),
                     ),
                   ],
