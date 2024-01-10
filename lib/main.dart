@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/widgets/theme.dart';
 import 'package:flutter_chat_app/pages/login.dart';
 
 void main() {
@@ -8,13 +9,16 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+     final MaterialTheme materialTheme =
+        MaterialTheme(ThemeData.light().textTheme);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ChatLaju',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: materialTheme.light(),
+        darkTheme: materialTheme.dark(),
+        themeMode: ThemeMode.system,
+        highContrastTheme: materialTheme.lightHighContrast(),
+        highContrastDarkTheme: materialTheme.darkHighContrast(),
       home: LoginPage(),
     );
   }

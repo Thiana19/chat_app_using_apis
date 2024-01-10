@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_chat_app/models/item_card.dart';
+import 'package:flutter_chat_app/pages/login.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -9,7 +9,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool isDarkModeEnabled = false;
   String userName = 'Asif Ali';
-  String userEmail = 'asifmailed@gmail.com'; 
+  String userEmail = 'asifmailed@gmail.com';
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
           SizedBox(height: 20),
           _buildSectionTitle('App Settings'),
           Padding(
-            padding: const EdgeInsets.only(top: 16), 
+            padding: const EdgeInsets.only(top: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -58,6 +58,35 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton.icon(
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LoginPage(),
+              ),
+            );
+          },
+          icon: const Icon(
+            Icons.logout,
+            color: Colors.red, 
+          ),
+          label: const Text(
+            'Logout',
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
+          style: ElevatedButton.styleFrom(
+            primary: Colors.white, 
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8), 
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/pages/channels.dart';
+import 'package:flutter_chat_app/pages/contacts.dart';
 import 'package:flutter_chat_app/pages/login.dart';
 import 'package:flutter_chat_app/pages/inbox.dart';
 import 'package:flutter_chat_app/pages/settings.dart';
@@ -8,6 +10,8 @@ import 'package:flutter_chat_app/services/chat_rooms_service.dart';
 import 'package:flutter_chat_app/services/search_service.dart';
 import 'package:flutter_chat_app/style.dart';
 import 'package:flutter_chat_app/models/chat_room_model.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+
 
 class ChatRoomListPage extends StatefulWidget {
   final String token;
@@ -25,11 +29,14 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
   List<ChatRoomMessage> filteredChatRooms = [];
   bool isSearchBarVisible = false;
   GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
+  int _currentIndex = 0;
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
     chatService = ChatService(widget.token);
+    _pageController = PageController(initialPage: _currentIndex);
     _loadChatRooms();
   }
 
@@ -106,7 +113,108 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff5b61b9),
-      body: ListView(
+      body: _buildPageView(),
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+
+  Widget _buildBottomNavigationBar() {
+    return Container(
+      color: const Color(0xff5b61b9),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: GNav(
+          backgroundColor: const Color(0xff5b61b9),
+          color: Colors.white,
+          activeColor: Colors.black,
+          gap: 8,
+          padding: const EdgeInsets.all(12),
+          tabs: const [
+            GButton(
+              icon: Icons.mail,
+              text: 'Chats',
+              iconColor: Colors.white,
+            ),
+            GButton(
+              icon: Icons.people,
+              text: 'Contacts',
+              iconColor: Colors.white,
+            ),
+            GButton(
+              icon: Icons.fullscreen_exit_rounded,
+              text: 'Channels',
+              iconColor: Colors.white,
+            ),
+            GButton(
+              icon: Icons.settings,
+              text: 'Settings',
+              iconColor: Colors.white,
+            ),
+          ],
+          selectedIndex: _currentIndex,
+          onTabChange: (index) {
+            setState(() {
+              _currentIndex = index;
+              _pageController.animateToPage(
+                index,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.ease,
+              );
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPageView() {
+    return PageView(
+      controller: _pageController,
+      onPageChanged: (index) {
+        setState(() {
+          _currentIndex = index;
+        });
+      },
+      children: [
+        ChatRooms(),
+        const Contacts(),
+        const Channels(),
+        SettingsPage()
+      ],
+    );
+  }
+
+  Widget buildSearchBar() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
+      child: TextField(
+         onChanged: (searchQuery) {
+           _updateFilteredRooms(searchQuery);
+        },
+        decoration: InputDecoration(
+          hintText: 'Search...',
+          contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.white,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.white,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          filled: true,
+          fillColor: Colors.transparent,
+        ),
+      ),
+    );
+  }
+
+  Widget ChatRooms() {
+    return ListView(
         children: [
           Container(
             padding: const EdgeInsets.only(top: 30, left: 20),
@@ -128,48 +236,48 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
                       child: RawMaterialButton(
                         constraints: const BoxConstraints(minWidth: 0),
                         onPressed: () {
-                          showMenu(
-                            context: context,
-                            position: const RelativeRect.fromLTRB(100, 100, 0, 0), 
-                            items: [
-                              const PopupMenuItem(
-                                value: 'settings',
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.settings, color: Colors.black),
-                                    SizedBox(width: 8), 
-                                    Text('Settings'),
-                                  ],
-                                ),
-                              ),
-                              const PopupMenuItem(
-                                value: 'logout',
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.logout, color: Colors.black),
-                                    SizedBox(width: 8),
-                                    Text('Logout'),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ).then((value) {
-                            if (value == 'settings') {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SettingsPage(),
-                                ),
-                              );
-                            } else if (value == 'logout') {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginPage(),
-                                ),
-                              );
-                            }
-                          });
+                          // showMenu(
+                          //   context: context,
+                          //   position: const RelativeRect.fromLTRB(100, 100, 0, 0), 
+                          //   items: [
+                          //     const PopupMenuItem(
+                          //       value: 'settings',
+                          //       child: Row(
+                          //         children: [
+                          //           Icon(Icons.settings, color: Colors.black),
+                          //           SizedBox(width: 8), 
+                          //           Text('Settings'),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //     const PopupMenuItem(
+                          //       value: 'logout',
+                          //       child: Row(
+                          //         children: [
+                          //           Icon(Icons.logout, color: Colors.black),
+                          //           SizedBox(width: 8),
+                          //           Text('Logout'),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ).then((value) {
+                          //   if (value == 'settings') {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (context) => SettingsPage(),
+                          //       ),
+                          //     );
+                          //   } else if (value == 'logout') {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (context) => LoginPage(),
+                          //       ),
+                          //     );
+                          //   }
+                          // });
                         },
                         elevation: 2.0,
                         fillColor: Colors.transparent,
@@ -296,36 +404,6 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget buildSearchBar() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(8, 8, 20, 8),
-      child: TextField(
-         onChanged: (searchQuery) {
-           _updateFilteredRooms(searchQuery);
-        },
-        decoration: InputDecoration(
-          hintText: 'Search...',
-          contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.white,
-            ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.white,
-            ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          filled: true,
-          fillColor: Colors.transparent,
-        ),
-      ),
-    );
+      );
   }
 }
