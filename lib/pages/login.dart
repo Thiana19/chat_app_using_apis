@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                       Row(
                         children: [
                           Image.asset(
-                            'assets/logo.png',
+                            'assets/logo1.png',
                             width: 200,
                           ),
                         ],

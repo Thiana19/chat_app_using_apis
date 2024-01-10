@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/models/item_card.dart';
+// import 'package:flutter_chat_app/models/item_card.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -8,8 +8,8 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool isDarkModeEnabled = false;
-  String userName = 'Asif Ali'; // Replace with actual user name
-  String userEmail = 'asifmailed@gmail.com'; // Replace with actual user email
+  String userName = 'Asif Ali';
+  String userEmail = 'asifmailed@gmail.com'; 
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +27,10 @@ class _SettingsPageState extends State<SettingsPage> {
         children: <Widget>[
           _buildSectionTitle('Account Information'),
           _buildAccountInfoListView(brightness: brightness),
-          SizedBox(height: 20), // Added some space between sections
+          SizedBox(height: 20),
           _buildSectionTitle('App Settings'),
           Padding(
-            padding: const EdgeInsets.only(top: 16), // Customize top padding
+            padding: const EdgeInsets.only(top: 16), 
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
