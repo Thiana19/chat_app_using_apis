@@ -16,74 +16,104 @@ class _SettingsPageState extends State<SettingsPage> {
     var brightness = MediaQuery.of(context).platformBrightness;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Settings',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+        backgroundColor: Colors.teal.withOpacity(0.1),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {},
+        ),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 50),
+              child: Text(
+                'Settings',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-      body: ListView(
-        children: <Widget>[
-          _buildSectionTitle('Account Information'),
-          _buildAccountInfoListView(brightness: brightness),
-          SizedBox(height: 20),
-          _buildSectionTitle('App Settings'),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _buildSettingsItem(
-                  title: 'Language',
-                  subtitle: 'English',
-                  icon: Icons.language,
-                  callback: () {
-                    print('Tap Settings Item 01');
-                  },
-                  brightness: brightness,
-                ),
-                _buildDarkModeSwitchItem(
-                  title: 'Dark Mode',
-                  callback: () {
-                    setState(() {
-                      isDarkModeEnabled = !isDarkModeEnabled;
-                    });
-                  },
-                  isDarkModeEnabled: isDarkModeEnabled,
-                  brightness: brightness,
-                ),
-                // Add more settings items here
-              ],
+      body: Container(
+        // color: Colors.grey[200],
+        child: ListView(
+          children: <Widget>[
+            const SizedBox(height: 20),
+            _buildSectionTitle('Account Information'),
+            Card(
+              elevation: 5,
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              color: Colors.white, // White background color
+              child: _buildAccountInfoListView(brightness: brightness),
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ElevatedButton.icon(
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LoginPage(),
+            const SizedBox(height: 20),
+            _buildSectionTitle('App Settings'),
+            Card(
+              elevation: 5,
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              color: Colors.white, // White background color
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _buildSettingsItem(
+                      title: 'Language',
+                      subtitle: 'English',
+                      icon: Icons.language,
+                      callback: () {
+                        // print('Tap Settings Item 01');
+                      },
+                      brightness: brightness,
+                    ),
+                    _buildDarkModeSwitchItem(
+                      title: 'Dark Mode',
+                      callback: () {
+                        setState(() {
+                          isDarkModeEnabled = !isDarkModeEnabled;
+                        });
+                      },
+                      isDarkModeEnabled: isDarkModeEnabled,
+                      brightness: brightness,
+                    ),
+                    // Add more settings items here
+                  ],
+                ),
               ),
-            );
-          },
-          icon: const Icon(
-            Icons.logout,
-            color: Colors.red, 
-          ),
-          label: const Text(
-            'Logout',
-            style: TextStyle(
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        // color: Colors.grey[200], 
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ElevatedButton.icon(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.logout,
               color: Colors.red,
             ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: Colors.white, 
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8), 
+            label: const Text(
+              'Logout',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
           ),
         ),
@@ -109,7 +139,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
@@ -150,7 +180,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
@@ -178,7 +208,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _buildAccountInfoListView({required Brightness brightness}) {
     return ListView(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
         _buildAccountInfoItem(
           title: 'Name',
@@ -214,7 +244,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
@@ -246,7 +276,7 @@ class _SettingsPageState extends State<SettingsPage> {
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),

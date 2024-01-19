@@ -11,111 +11,114 @@ class Channels extends StatefulWidget {
 class _ChannelsState extends State<Channels> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Container(
-            padding: const EdgeInsets.only(top: 30, left: 20),
-            height: 110,
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    PrimaryText(
-                      text: 'Channels',
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ],
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.teal.withOpacity(0.1),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+          
+          },
+        ),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 50), 
+              child: Text(
+                'Channels',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(height: 25),
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: ListView(
+        children: [
+            Container(
+            padding: const EdgeInsets.only(top: 15, left: 0, right: 10),
+            height: MediaQuery.of(context).size.height - 110,
+            decoration: BoxDecoration(
+              // color: Colors.grey[200],
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    children: [
+                      _buildListItem(
+                        assetPath: 'assets/facebook.png',
+                        title: 'Facebook',
+                        text: 'Connected',
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: _buildDivider(),
+                      ),
+                      _buildListItem(
+                        assetPath: 'assets/instagram.png',
+                        title: 'Instagram',
+                        text: 'Connected',
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: _buildDivider(),
+                      ),
+                      _buildListItem(
+                        assetPath: 'assets/twitter.png',
+                        title: 'Twitter',
+                        text: '-',
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: _buildDivider(),
+                      ),
+                      _buildListItem(
+                        assetPath: 'assets/telegram.png',
+                        title: 'Telegram',
+                        text: 'Connected',
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: _buildDivider(),
+                      ),
+                      _buildListItem(
+                        assetPath: 'assets/whatsapp.png',
+                        title: 'WhatsApp',
+                        text: 'Connected',
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: _buildDivider(),
+                      ),
+                      _buildListItem(
+                        assetPath: 'assets/email.png',
+                        title: 'Email',
+                        text: '-',
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: _buildDivider(),
+                      ),
+                      _buildListItem(
+                        assetPath: 'assets/chatbot.png',
+                        title: 'ChatBot',
+                        text: '-',
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-          Container(
-          padding: const EdgeInsets.only(top: 15, left: 0, right: 10),
-          height: MediaQuery.of(context).size.height - 110,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40),
-              topRight: Radius.circular(40),
-            ),
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    _buildListItem(
-                      assetPath: 'assets/facebook.png',
-                      title: 'Facebook',
-                      text: 'Connected',
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: _buildDivider(),
-                    ),
-                    _buildListItem(
-                      assetPath: 'assets/instagram.png',
-                      title: 'Instagram',
-                      text: 'Connected',
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: _buildDivider(),
-                    ),
-                    _buildListItem(
-                      assetPath: 'assets/twitter.png',
-                      title: 'Twitter',
-                      text: '-',
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: _buildDivider(),
-                    ),
-                    _buildListItem(
-                      assetPath: 'assets/telegram.png',
-                      title: 'Telegram',
-                      text: 'Connected',
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: _buildDivider(),
-                    ),
-                    _buildListItem(
-                      assetPath: 'assets/whatsapp.png',
-                      title: 'WhatsApp',
-                      text: 'Connected',
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: _buildDivider(),
-                    ),
-                    _buildListItem(
-                      assetPath: 'assets/email.png',
-                      title: 'Email',
-                      text: '-',
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: _buildDivider(),
-                    ),
-                    _buildListItem(
-                      assetPath: 'assets/chatbot.png',
-                      title: 'ChatBot',
-                      text: '-',
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
+    
+    
+    
   }
 
   Widget _buildListItem({

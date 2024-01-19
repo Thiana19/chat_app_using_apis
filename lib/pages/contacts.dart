@@ -49,48 +49,52 @@ class _ContactsState extends State<Contacts> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 30, left: 20),
-          height: 110,
-          child: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  PrimaryText(
-                    text: 'Contacts',
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ],
-              ),
-              SizedBox(height: 25),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.teal.withOpacity(0.1),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+          
+          },
         ),
-        Container(
-          padding: const EdgeInsets.only(top: 15, left: 0, right: 10),
-          height: MediaQuery.of(context).size.height - 110,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40),
-              topRight: Radius.circular(40),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 50), 
+              child: Text(
+                'Contacts',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: ListView(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(top: 15, left: 0, right: 10),
+            height: MediaQuery.of(context).size.height - 110,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40),
+                topRight: Radius.circular(40),
+              ),
+            ),
+            child: ListView.builder(
+              itemCount: contacts.length,
+              itemBuilder: (context, index) {
+                final contact = contacts[index];
+                return _buildContactListItem(contact);
+              },
             ),
           ),
-          child: ListView.builder(
-            itemCount: contacts.length,
-            itemBuilder: (context, index) {
-              final contact = contacts[index];
-              return _buildContactListItem(contact);
-            },
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

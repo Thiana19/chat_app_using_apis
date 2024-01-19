@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/pages/channels.dart';
 import 'package:flutter_chat_app/pages/contacts.dart';
-// import 'package:flutter_chat_app/pages/login.dart';
 import 'package:flutter_chat_app/pages/inbox.dart';
 import 'package:flutter_chat_app/pages/settings.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +9,7 @@ import 'package:flutter_chat_app/services/chat_rooms_service.dart';
 import 'package:flutter_chat_app/services/search_service.dart';
 import 'package:flutter_chat_app/style.dart';
 import 'package:flutter_chat_app/models/chat_room_model.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+// import 'package:google_nav_bar/google_nav_bar.dart';
 
 
 class ChatRoomListPage extends StatefulWidget {
@@ -22,22 +21,30 @@ class ChatRoomListPage extends StatefulWidget {
   _ChatRoomListPageState createState() => _ChatRoomListPageState();
 }
 
-class _ChatRoomListPageState extends State<ChatRoomListPage> {
+class _ChatRoomListPageState extends State<ChatRoomListPage> 
+  with SingleTickerProviderStateMixin {
+  int _selectedIndex = 0;
+  late TabController _tabController;
+  late List<Widget Function()> _bodyView;
   late ChatService chatService;
   late SearchService searchService;
   List<ChatRoomMessage> chatRooms = [];
   List<ChatRoomMessage> filteredChatRooms = [];
   bool isSearchBarVisible = false;
   GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
-  int _currentIndex = 0;
-  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
     chatService = ChatService(widget.token);
-    _pageController = PageController(initialPage: _currentIndex);
+    _tabController = TabController(vsync: this, length: 4);
     _loadChatRooms();
+    _bodyView = [
+      () => ChatRooms(),
+      () => Contacts(widget.token),
+      () => const Channels(),
+      () => SettingsPage(),
+    ];
   }
 
   Future<void> _loadChatRooms() async {
@@ -76,7 +83,7 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
     final int blue = hash & 0x0000FF;
 
     final Color color = Color.fromRGBO(red, green, blue, 1.0);
-    return color.withOpacity(0.5); // Adjust the opacity as needed
+    return color.withOpacity(0.5); 
   }
 
   Widget channelIcon(String channel) {
@@ -109,80 +116,61 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF7863DF),
-      body: _buildPageView(),
-      bottomNavigationBar: _buildBottomNavigationBar(),
-    );
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
-  Widget _buildBottomNavigationBar() {
-    return Container(
-      color: Color(0xFF7863DF),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: GNav(
-          backgroundColor: const Color(0xFF7863DF),
-          color: Colors.white,
-          activeColor: Colors.black,
-          gap: 8,
-          padding: const EdgeInsets.all(12),
-          tabs: const [
-            GButton(
-              icon: Icons.mail,
-              text: 'Chats',
-              iconColor: Colors.white,
+  final List<String> _labels = ['Chats', 'Contacts', 'Channels', 'Settings'];
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> _icons = const [
+      Icon(Icons.home_outlined),
+      Icon(Icons.people),
+      Icon(Icons.fullscreen_exit_rounded),
+      Icon(Icons.settings)
+    ];
+
+    return Scaffold(
+      // backgroundColor: const Color(0xFF7863DF),
+      body: _bodyView[_selectedIndex](),
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        height: 90,
+        padding: const EdgeInsets.all(12),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(30.0),
+          child: Container(
+            color: Colors.teal.withOpacity(0.1),
+            child: TabBar(
+              onTap: (x) {
+                setState(() {
+                  _selectedIndex = x;
+                });
+              },
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.blueGrey,
+              indicator: const UnderlineTabIndicator(
+                borderSide: BorderSide.none,
+              ),
+              tabs: [
+                for (int i = 0; i < _icons.length; i++)
+                  _tabItem(
+                    _icons[i],
+                    _labels[i],
+                    isSelected: i == _selectedIndex,
+                  ),
+              ],
+              controller: _tabController,
             ),
-            GButton(
-              icon: Icons.people,
-              text: 'Contacts',
-              iconColor: Colors.white,
-            ),
-            GButton(
-              icon: Icons.fullscreen_exit_rounded,
-              text: 'Channels',
-              iconColor: Colors.white,
-            ),
-            GButton(
-              icon: Icons.settings,
-              text: 'Settings',
-              iconColor: Colors.white,
-            ),
-          ],
-          selectedIndex: _currentIndex,
-          onTabChange: (index) {
-            setState(() {
-              _currentIndex = index;
-              _pageController.animateToPage(
-                index,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.ease,
-              );
-            });
-          },
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildPageView() {
-    return PageView(
-      controller: _pageController,
-      onPageChanged: (index) {
-        setState(() {
-          _currentIndex = index;
-        });
-      },
-      children: [
-        ChatRooms(),
-        Contacts(widget.token),
-        const Channels(),
-        SettingsPage()
-      ],
-    );
-  }
 
   Widget buildSearchBar() {
     return Container(
@@ -217,6 +205,7 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
     return ListView(
         children: [
           Container(
+            color: Colors.teal.withOpacity(0.1),
             padding: const EdgeInsets.only(top: 30, left: 20),
             height: 170,
             child: Column(
@@ -228,7 +217,7 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
                     PrimaryText(
                       text: 'Welcome Asif Ali',
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.w900,
                     ),
                   ],
@@ -365,5 +354,25 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
       color: Colors.grey[300],
       height: 1,
     );
+  }
+
+  Widget _tabItem(Widget child, String label, {bool isSelected = false}) {
+    return AnimatedContainer(
+        // margin: EdgeInsets.all(0),
+        alignment: Alignment.center,
+        duration: const Duration(milliseconds: 500),
+        decoration: !isSelected
+            ? null
+            : BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.black,
+              ),
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            child,
+            Text(label, style: TextStyle(fontSize: 10)),
+          ],
+        ));
   }
 }
