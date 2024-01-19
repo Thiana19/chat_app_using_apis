@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/pages/channels.dart';
 import 'package:flutter_chat_app/pages/contacts.dart';
-import 'package:flutter_chat_app/pages/login.dart';
+// import 'package:flutter_chat_app/pages/login.dart';
 import 'package:flutter_chat_app/pages/inbox.dart';
 import 'package:flutter_chat_app/pages/settings.dart';
 import 'package:intl/intl.dart';
@@ -112,7 +112,7 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff5b61b9),
+      backgroundColor: const Color(0xFF7863DF),
       body: _buildPageView(),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
@@ -120,11 +120,11 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
 
   Widget _buildBottomNavigationBar() {
     return Container(
-      color: const Color(0xff5b61b9),
+      color: Color(0xFF7863DF),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: GNav(
-          backgroundColor: const Color(0xff5b61b9),
+          backgroundColor: const Color(0xFF7863DF),
           color: Colors.white,
           activeColor: Colors.black,
           gap: 8,
@@ -177,7 +177,7 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
       },
       children: [
         ChatRooms(),
-        const Contacts(),
+        Contacts(widget.token),
         const Channels(),
         SettingsPage()
       ],
@@ -218,73 +218,18 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
         children: [
           Container(
             padding: const EdgeInsets.only(top: 30, left: 20),
-            height: 180,
+            height: 170,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const PrimaryText(
+                    PrimaryText(
                       text: 'Welcome Asif Ali',
                       fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: RawMaterialButton(
-                        constraints: const BoxConstraints(minWidth: 0),
-                        onPressed: () {
-                          // showMenu(
-                          //   context: context,
-                          //   position: const RelativeRect.fromLTRB(100, 100, 0, 0), 
-                          //   items: [
-                          //     const PopupMenuItem(
-                          //       value: 'settings',
-                          //       child: Row(
-                          //         children: [
-                          //           Icon(Icons.settings, color: Colors.black),
-                          //           SizedBox(width: 8), 
-                          //           Text('Settings'),
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     const PopupMenuItem(
-                          //       value: 'logout',
-                          //       child: Row(
-                          //         children: [
-                          //           Icon(Icons.logout, color: Colors.black),
-                          //           SizedBox(width: 8),
-                          //           Text('Logout'),
-                          //         ],
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ).then((value) {
-                          //   if (value == 'settings') {
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //         builder: (context) => SettingsPage(),
-                          //       ),
-                          //     );
-                          //   } else if (value == 'logout') {
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //         builder: (context) => LoginPage(),
-                          //       ),
-                          //     );
-                          //   }
-                          // });
-                        },
-                        elevation: 2.0,
-                        fillColor: Colors.transparent,
-                        padding: const EdgeInsets.all(10.0),
-                        shape: const CircleBorder(),
-                        child: const Icon(Icons.more_horiz, size: 18, color: Colors.white),
-                      ),
                     ),
                   ],
                 ),
@@ -329,7 +274,7 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
           ),
           Container(
             padding: const EdgeInsets.only(top: 5, left: 0, right: 20),
-            height: MediaQuery.of(context).size.height - 180,
+            height: MediaQuery.of(context).size.height - 170,
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -345,57 +290,65 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
                     itemBuilder: (context, index) {
                       final room = filteredChatRooms[index];
       
-                      return ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(room.name),
-                            Opacity(
-                              opacity: 0.4,
-                              child: Text(formatTimestamp(room.createdAt)),
+                      return Column(
+                        children: [
+                          ListTile(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(room.name),
+                                Opacity(
+                                  opacity: 0.4,
+                                  child: Text(formatTimestamp(room.createdAt)),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        subtitle: Opacity(
-                          opacity: 0.5,
-                          child: Text(room.message),
-                        ),
-                        leading: CircleAvatar(
-                          radius: 40,
-                          backgroundColor: generateAvatarColor(room.name),
-                          child:  Stack(
-                            children: [
-                              Center(
-                                child: Text(
-                                  getInitials(room.name), // Placeholder for room image
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                            subtitle: Opacity(
+                              opacity: 0.5,
+                              child: Text(room.message),
+                            ),
+                            leading: CircleAvatar(
+                              radius: 40,
+                              backgroundColor: generateAvatarColor(room.name),
+                              child:  Stack(
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      getInitials(room.name), // Placeholder for room image
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    left: 10,
+                                    child: channelIcon(room.channel),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatScreen(
+                                    chatRoomName: room.name,
+                                    token: widget.token, 
+                                    roomId: room.id, 
+                                    avatarColor: generateAvatarColor(room.name),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                left: 10,
-                                child: channelIcon(room.channel),
-                              ),
-                            ],
+                              );
+                            },
                           ),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChatScreen(
-                                chatRoomName: room.name,
-                                token: widget.token, 
-                                roomId: room.id, 
-                                avatarColor: generateAvatarColor(room.name),
-                              ),
-                            ),
-                          );
-                        },
+                          Padding(
+                            padding: const EdgeInsets.only(left: 90),
+                            child: _buildDivider(),
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -405,5 +358,12 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> {
           ),
         ],
       );
+  }
+
+  Widget _buildDivider() {
+    return Divider(
+      color: Colors.grey[300],
+      height: 1,
+    );
   }
 }

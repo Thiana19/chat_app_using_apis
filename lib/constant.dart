@@ -1,8 +1,6 @@
-// import 'package:flutter/material.dart';
-
 import 'package:flutter/material.dart';
 
-Color buttonColor = Color(0xFF3F3E91);
+Color buttonColor = Color(0xFF7863DF);
 // Color baseColor = Color();
 
 const avatarList = [

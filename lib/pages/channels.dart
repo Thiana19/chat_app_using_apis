@@ -28,20 +28,6 @@ class _ChannelsState extends State<Channels> {
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(right: 20),
-                    //   child: RawMaterialButton(
-                    //     constraints: const BoxConstraints(minWidth: 0),
-                    //     onPressed: () {
-                        
-                    //     },
-                    //     elevation: 2.0,
-                    //     fillColor: Colors.transparent,
-                    //     padding: const EdgeInsets.all(10.0),
-                    //     shape: const CircleBorder(),
-                    //     child: const Icon(Icons.more_horiz, size: 18, color: Colors.white),
-                    //   ),
-                    // ),
                   ],
                 ),
                 SizedBox(height: 25),
@@ -68,37 +54,55 @@ class _ChannelsState extends State<Channels> {
                       title: 'Facebook',
                       text: 'Connected',
                     ),
-                    _buildDivider(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: _buildDivider(),
+                    ),
                     _buildListItem(
                       assetPath: 'assets/instagram.png',
                       title: 'Instagram',
                       text: 'Connected',
                     ),
-                    _buildDivider(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: _buildDivider(),
+                    ),
                     _buildListItem(
                       assetPath: 'assets/twitter.png',
                       title: 'Twitter',
                       text: '-',
                     ),
-                    _buildDivider(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: _buildDivider(),
+                    ),
                     _buildListItem(
                       assetPath: 'assets/telegram.png',
                       title: 'Telegram',
                       text: 'Connected',
                     ),
-                    _buildDivider(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: _buildDivider(),
+                    ),
                     _buildListItem(
                       assetPath: 'assets/whatsapp.png',
                       title: 'WhatsApp',
                       text: 'Connected',
                     ),
-                    _buildDivider(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: _buildDivider(),
+                    ),
                     _buildListItem(
                       assetPath: 'assets/email.png',
                       title: 'Email',
                       text: '-',
                     ),
-                    _buildDivider(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: _buildDivider(),
+                    ),
                     _buildListItem(
                       assetPath: 'assets/chatbot.png',
                       title: 'ChatBot',
@@ -144,5 +148,4 @@ class _ChannelsState extends State<Channels> {
       height: 1,
     );
   }
-
 }
