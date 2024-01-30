@@ -39,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
       if (kDebugMode) {
         print('Login successful: Token - ${user.token}');
       }
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -49,9 +50,9 @@ class _LoginPageState extends State<LoginPage> {
       if (kDebugMode) {
         print('Login failed: $e');
       }
-      setState(() {
-        _errorMessage = 'Email or password incorrect. Please try again';
-      });
+      // setState(() {
+      //   _errorMessage = 'Email or password incorrect. Please try again';
+      // });
     }
   }
 

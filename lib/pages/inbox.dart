@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/models/message_model.dart';
-import 'package:flutter_chat_app/pages/home.dart';
-import 'package:flutter_chat_app/style.dart';
+// import 'package:flutter_chat_app/pages/home.dart';
+// import 'package:flutter_chat_app/style.dart';
 import 'package:flutter_chat_app/services/message_service.dart';
 import 'package:flutter_chat_app/services/send_message_service.dart';
 import 'package:intl/intl.dart';
@@ -25,14 +25,12 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   late List<dynamic> messages = [];
-  late SendMessageService _sendMessageService;
   late TextEditingController _messageController;
 
   @override
   void initState() {
     super.initState();
     _loadMessages();
-    _sendMessageService = SendMessageService(widget.token);
     _messageController = TextEditingController();
   }
 
@@ -64,81 +62,55 @@ class _ChatScreenState extends State<ChatScreen> {
     return initials.toUpperCase();
   }
 
+  Future<void> _sendMessage() async {
+    final String messageContent = _messageController.text.trim();
+    if (messageContent.isNotEmpty) {
+      try {
+        await SendMessageService(widget.token)
+            .sendMessage(widget.roomId, messageContent);
+        _messageController.clear();
+        _loadMessages(); 
+      } catch (error) {
+        print('Error sending message: $error');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff5b61b9),
+      appBar: AppBar(
+        backgroundColor: Colors.teal,
+        title: ListView(
+          shrinkWrap: true,
+          children: [
+            ListTile(
+              leading: CircleAvatar(
+                backgroundColor: widget.avatarColor,
+                child: Text(
+                  getInitials(widget.chatRoomName),
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              title: Text(
+                widget.chatRoomName,
+                style: const TextStyle(
+                  fontSize: 26,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+          ],
+        ),
+        titleSpacing: 0,
+      ),
       body: ListView(
         children: [
-          header(),
           chatArea(context),
-        ],
-      ),
-    );
-  }
-
-  Padding header() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 5, right: 5, top: 15, bottom: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChatRoomListPage(token: widget.token),
-                ),
-              );
-            },
-            child: const Icon(Icons.arrow_back_ios_new_rounded, size: 26, color: Colors.white)
-          ),
-          Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListView(
-                  shrinkWrap: true,
-                  children: [
-                    ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: widget.avatarColor,
-                        child: Text(
-                          getInitials(widget.chatRoomName),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        widget.chatRoomName,
-                        style: const TextStyle(
-                          fontSize: 26,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      // subtitle: Text(widget.),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-          RawMaterialButton(
-            constraints: const BoxConstraints(minWidth: 0),
-            onPressed: () {},
-            elevation: 2.0,
-            fillColor: Colors.white38,
-            padding: const EdgeInsets.all(10.0),
-            shape: const CircleBorder(),
-            child: const Icon(Icons.more_horiz, size: 18, color: Colors.white),
-          ),
         ],
       ),
     );
@@ -147,12 +119,8 @@ class _ChatScreenState extends State<ChatScreen> {
   Container chatArea(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height - 90,
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        // borderRadius: const BorderRadius.only(
-        //   topLeft: Radius.circular(40),
-        //   topRight: Radius.circular(40),
-        // ),
+      decoration: const BoxDecoration(
+        color: Colors.white,
       ),
       child: Column(
         children: [
@@ -189,8 +157,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
                   borderSide: const BorderSide(
-                    width: 0,
-                    style: BorderStyle.none,
+                    width: 0.5,
+                    // style: BorderStyle.none,
                   ),
                 ),
                 hintText: 'Type your message...',
@@ -203,7 +171,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       _sendMessage();
                     },
                     elevation: 2.0,
-                    fillColor: const Color(0xff5b61b9),
+                    fillColor: Colors.lightBlueAccent,
                     padding: const EdgeInsets.all(10.0),
                     shape: const CircleBorder(),
                     child: const Icon(Icons.send, size: 22.0, color: Colors.white),
@@ -227,15 +195,15 @@ class _ChatScreenState extends State<ChatScreen> {
           isImage
           ? Image.network(
               messages[index]['attachment_path'],
-              width: 150, // Adjust the width as needed
-              height: 150, // Adjust the height as needed
+              width: 150, 
+              height: 150, 
               fit: BoxFit.cover,
             )
           : Container(
               constraints: const BoxConstraints(minWidth: 100, maxWidth: 150),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               decoration: const BoxDecoration(
-                color: Color(0xFF4B49AC),
+                color: Colors.blueGrey,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(15),
@@ -246,22 +214,27 @@ class _ChatScreenState extends State<ChatScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  PrimaryText(
-                    text: message,
-                    color: Colors.white,
+                  Text(
+                    message,
+                    style: const TextStyle(
+                    color: Colors.white),
                   ),
                   const SizedBox(height: 5),
                   Row(
                     children: [
-                      PrimaryText(
-                        text: time,
-                        color: Colors.white,
+                      Text(
+                        time,
+                        style: const TextStyle(
+                          color: Colors.white,
                         fontSize: 14,
+                        ),
                       ),
-                      const PrimaryText(
-                        text: " : Sent",
-                        color: Colors.white,
+                      const Text(
+                        " : Sent",
+                        style: TextStyle(
+                          color: Colors.white,
                         fontSize: 14,
+                        ),
                       ),
                     ],
                   ),
@@ -281,19 +254,6 @@ class _ChatScreenState extends State<ChatScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 20),
-          //   child: CircleAvatar(
-          //     backgroundColor: widget.avatarColor,
-          //     child: Text(
-          //       getInitials(widget.chatRoomName),
-          //       style: const TextStyle(
-          //         color: Colors.white,
-          //         fontWeight: FontWeight.bold,
-          //       ),
-          //     ),
-          //   ),
-          // ),
           isImage
               ? Image.network(
                   messages[index]['attachment_path'],
@@ -305,7 +265,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   constraints: const BoxConstraints(minWidth: 100, maxWidth: 150),
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: Color(0xFFE0E0E0),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15),
@@ -316,22 +276,29 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PrimaryText(
-                        text: message,
-                        color: Colors.black54,
+                      Text(
+                        message,
+                        style: const TextStyle(
+                          color: Colors.black54,
+                        ),
+                        
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PrimaryText(
-                            text: time,
-                            color: Colors.grey.shade400,
-                            fontSize: 14,
+                          Text(
+                            time,
+                            style: const TextStyle(
+                              color: Colors.black54,
+                              fontSize: 14,
+                            ),
                           ),
-                          PrimaryText(
-                            text: " : Received",
-                            color: Colors.grey.shade400,
+                          const Text(
+                            " : Received",
+                            style: TextStyle(
+                              color: Colors.black54,
                             fontSize: 14,
+                            ),
                           ),
                         ],
                       ),
@@ -341,21 +308,5 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
     );
-  }
-
-  void _sendMessage() {
-    // Get the message from the text field
-    final String message = _messageController.text;
-
-    // Check if the message is not empty before making the API call
-    if (message.isNotEmpty) {
-      // Call the sendMessage method from the service
-      _sendMessageService.sendMessage(widget.roomId, message).then((_) {
-        // You can do something after the message is sent, e.g., clear the text field
-        _messageController.clear();
-        // Reload messages after sending a new message
-        _loadMessages();
-      });
-    }
   }
 }

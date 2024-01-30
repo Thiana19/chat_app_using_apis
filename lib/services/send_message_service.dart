@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class SendMessageService {
-  static const String baseUrl = 'http://app.chatlaju.com/api/v1/send-message';
+  static const String baseUrl = 'https://app.chatlaju.com/api/v1/send-message';
   final String token;
 
   SendMessageService(this.token);
 
-  Future<void> sendMessage(String roomId, String message) async {
+  Future<void> sendMessage(String roomId, String messageContent) async {
     try {
       final response = await http.post(
         Uri.parse(baseUrl),
@@ -16,8 +16,8 @@ class SendMessageService {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'roomId': roomId,
-          'message': message,
+          'chat_room': roomId,
+          'messageContent': messageContent,
         }),
       );
 

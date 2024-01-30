@@ -4,6 +4,7 @@ class ChatRoomMessage {
   final String message;
   final String createdAt;
   final String channel;
+  final bool isRead;
 
   ChatRoomMessage({
     required this.id,
@@ -11,6 +12,7 @@ class ChatRoomMessage {
     required this.message,
     required this.createdAt,
     required this.channel,
+    required this.isRead,
   });
 
   factory ChatRoomMessage.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class ChatRoomMessage {
       message: json['latestMessage']['message'],
       createdAt: json['latestMessage']['created_at'],
       channel: json['channel'],
+      isRead: json['latestMessage']['is_read'] == '1',
     );
   }
 }

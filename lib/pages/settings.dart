@@ -15,29 +15,22 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.teal.withOpacity(0.1),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {},
-        ),
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 50),
-              child: Text(
-                'Settings',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.teal.withOpacity(0.1),
+      //   title: const Row(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       Text(
+      //         'Settings',
+      //         style: TextStyle(
+      //           fontWeight: FontWeight.bold,
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: Container(
-        // color: Colors.grey[200],
+        color: Colors.white,
         child: ListView(
           children: <Widget>[
             const SizedBox(height: 20),
@@ -45,7 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Card(
               elevation: 5,
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              color: Colors.white, // White background color
+              color: Colors.white, 
               child: _buildAccountInfoListView(brightness: brightness),
             ),
             const SizedBox(height: 20),
@@ -53,7 +46,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Card(
               elevation: 5,
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              color: Colors.white, // White background color
+              color: Colors.white, 
               child: Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Column(
@@ -87,9 +80,9 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       bottomNavigationBar: Container(
-        // color: Colors.grey[200], 
+        color: Colors.white, 
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: ElevatedButton.icon(
             onPressed: () {
               Navigator.pushReplacement(

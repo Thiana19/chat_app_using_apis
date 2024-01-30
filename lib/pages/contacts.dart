@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/style.dart';
 import 'package:flutter_chat_app/models/contact_model.dart';
 import 'package:flutter_chat_app/services/contact_service.dart';
+import 'package:flutter_chat_app/services/search_service.dart';
 
 class Contacts extends StatefulWidget {
   final String token;
@@ -14,6 +14,9 @@ class Contacts extends StatefulWidget {
 
 class _ContactsState extends State<Contacts> {
   late List<Contact> contacts = [];
+  late List<Contact> filteredContacts = [];
+
+  SearchServiceContact searchService = SearchServiceContact([]);
 
   @override
   void initState() {
@@ -28,9 +31,10 @@ class _ContactsState extends State<Contacts> {
 
       setState(() {
         contacts = fetchedContacts;
+        filteredContacts = contacts; 
+        searchService = SearchServiceContact(contacts);
       });
     } catch (error) {
-      // Handle errors
       print('Error: $error');
     }
   }
@@ -47,34 +51,29 @@ class _ContactsState extends State<Contacts> {
     return initials;
   }
 
+  void _updateFilteredContacts(String searchQuery) {
+    setState(() {
+      filteredContacts = searchService.searchContacts(searchQuery);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.teal.withOpacity(0.1),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-          
-          },
-        ),
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 50), 
-              child: Text(
-                'Contacts',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: ListView(
         children: [
+          Container(
+            color: Colors.teal,
+            padding: const EdgeInsets.only(left: 15),
+            height: 80,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildSearchBar(),
+                const SizedBox(height: 5),
+              ],
+            ),
+          ),
           Container(
             padding: const EdgeInsets.only(top: 15, left: 0, right: 10),
             height: MediaQuery.of(context).size.height - 110,
@@ -86,9 +85,9 @@ class _ContactsState extends State<Contacts> {
               ),
             ),
             child: ListView.builder(
-              itemCount: contacts.length,
+              itemCount: filteredContacts.length,
               itemBuilder: (context, index) {
-                final contact = contacts[index];
+                final contact = filteredContacts[index];
                 return _buildContactListItem(contact);
               },
             ),
@@ -102,18 +101,23 @@ class _ContactsState extends State<Contacts> {
     return Column(
       children: [
         ListTile(
-          contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          leading: CircleAvatar(
+          contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+          leading: const CircleAvatar(
             radius: 30.0,
-            backgroundColor: Colors.blue, // Customize the background color
-            child: Text(
-              getInitials(contact.name),
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+            backgroundColor: Colors.teal,
+            child: Icon(
+              Icons.person,
+              size: 36,
+              color: Colors.white,
             ),
+            // Text(
+            //   getInitials(contact.name),
+            //   style: const TextStyle(
+            //     fontSize: 20,
+            //     color: Colors.white,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
           ),
           title: Text(contact.name),
           subtitle: Text(contact.handle),
@@ -126,10 +130,45 @@ class _ContactsState extends State<Contacts> {
           },
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 20),
+          padding: const EdgeInsets.only(left: 90),
           child: _buildDivider(),
-        )
+        ),
       ],
+    );
+  }
+
+  Widget buildSearchBar() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(0, 8, 20, 8),
+      child: TextField(
+        onChanged: (searchQuery) {
+          _updateFilteredContacts(searchQuery);
+        },
+        decoration: InputDecoration(
+          hintText: 'Search...',
+          contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.grey,
+            ),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.grey,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          filled: true,
+          fillColor: Colors.transparent,
+          suffixIcon: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.search,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
