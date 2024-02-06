@@ -62,10 +62,11 @@ class _ContactsState extends State<Contacts> {
     return Scaffold(
       body: ListView(
         children: [
+          const SizedBox(height: 5),
           Container(
-            color: Colors.teal,
+            // color: Colors.teal,
             padding: const EdgeInsets.only(left: 15),
-            height: 80,
+            height: 70,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -77,13 +78,7 @@ class _ContactsState extends State<Contacts> {
           Container(
             padding: const EdgeInsets.only(top: 15, left: 0, right: 10),
             height: MediaQuery.of(context).size.height - 110,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
-              ),
-            ),
+            
             child: ListView.builder(
               itemCount: filteredContacts.length,
               itemBuilder: (context, index) {
@@ -108,7 +103,7 @@ class _ContactsState extends State<Contacts> {
             child: Icon(
               Icons.person,
               size: 36,
-              color: Colors.white,
+              // color: Colors.white,
             ),
             // Text(
             //   getInitials(contact.name),

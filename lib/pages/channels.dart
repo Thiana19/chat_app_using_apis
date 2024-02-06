@@ -42,7 +42,7 @@ class _ChannelsState extends State<Channels> {
             padding: const EdgeInsets.only(top: 15, left: 0, right: 10),
             height: MediaQuery.of(context).size.height - 110,
             decoration: const BoxDecoration(
-              color: Colors.white,
+              // color: Colors.white,
             ),
             child: Column(
               children: [
@@ -99,7 +99,7 @@ class _ChannelsState extends State<Channels> {
         child: Text(
           text,
           style: const TextStyle(
-            color: Colors.white,
+            // color: Colors.white,
           ),
         ),
       ),
@@ -160,7 +160,7 @@ class _ChannelsState extends State<Channels> {
                 child: const Text(
                   'Connected',
                   style: TextStyle(
-                    color: Colors.white,
+                    // color: Colors.white,
                   ),
                 ),
               ),
@@ -174,17 +174,14 @@ class _ChannelsState extends State<Channels> {
             ],
           ),
         ),
-        const Divider(
-          color: Colors.grey,
-          height: 1,
-        ),
+        const Divider(),
       ],
     );
   }
 
   Widget _buildDivider() {
     return Divider(
-      color: Colors.grey[300],
+      // color: Colors.grey[300],
       height: 1,
     );
   }

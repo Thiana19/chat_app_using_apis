@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/models/message_model.dart';
-// import 'package:flutter_chat_app/pages/home.dart';
-// import 'package:flutter_chat_app/style.dart';
 import 'package:flutter_chat_app/services/message_service.dart';
 import 'package:flutter_chat_app/services/send_message_service.dart';
 import 'package:intl/intl.dart';
@@ -120,7 +118,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Container(
       height: MediaQuery.of(context).size.height - 90,
       decoration: const BoxDecoration(
-        color: Colors.white,
+        // color: Colors.white,
       ),
       child: Column(
         children: [
@@ -151,7 +149,7 @@ class _ChatScreenState extends State<ChatScreen> {
             child: TextField(
               controller: _messageController,
               decoration: InputDecoration(
-                fillColor: Colors.white,
+                // fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                 filled: true,
                 border: OutlineInputBorder(
@@ -171,10 +169,12 @@ class _ChatScreenState extends State<ChatScreen> {
                       _sendMessage();
                     },
                     elevation: 2.0,
-                    fillColor: Colors.lightBlueAccent,
+                    // fillColor: Colors.lightBlueAccent,
                     padding: const EdgeInsets.all(10.0),
                     shape: const CircleBorder(),
-                    child: const Icon(Icons.send, size: 22.0, color: Colors.white),
+                    child: const Icon(Icons.send, size: 22.0, 
+                      // color: Colors.white
+                    ),
                   ),
                 ),
               ),
@@ -217,7 +217,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   Text(
                     message,
                     style: const TextStyle(
-                    color: Colors.white),
+                    // color: Colors.white
+                    ),
                   ),
                   const SizedBox(height: 5),
                   Row(
@@ -225,14 +226,14 @@ class _ChatScreenState extends State<ChatScreen> {
                       Text(
                         time,
                         style: const TextStyle(
-                          color: Colors.white,
+                          // color: Colors.white,
                         fontSize: 14,
                         ),
                       ),
                       const Text(
                         " : Sent",
                         style: TextStyle(
-                          color: Colors.white,
+                          // color: Colors.white,
                         fontSize: 14,
                         ),
                       ),

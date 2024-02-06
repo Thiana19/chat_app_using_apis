@@ -32,7 +32,7 @@ class CustomTextInput extends StatelessWidget {
           hintText: hintText,
 
           hintStyle: TextStyle(
-            fontFamily: 'Poppins',
+            // fontFamily: 'Poppins',
           ),
         ),
       ),

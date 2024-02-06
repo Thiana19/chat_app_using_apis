@@ -16,6 +16,8 @@ class MyApp extends StatelessWidget {
       home: LoginPage(),
     );
   }
+
+  static void setTheme(ThemeData themeData) {}
 }
 
 class LoginPage extends StatefulWidget {
@@ -50,25 +52,28 @@ class _LoginPageState extends State<LoginPage> {
       if (kDebugMode) {
         print('Login failed: $e');
       }
-      // setState(() {
-      //   _errorMessage = 'Email or password incorrect. Please try again';
-      // });
+      setState(() {
+        _errorMessage = 'Email or password incorrect. Please try again';
+        _emailController.clear();
+      _passwordController.clear();
+      });
     }
   }
 
 
   @override
   Widget build(BuildContext context) {
+    // var brightness = MediaQuery.of(context).platformBrightness;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.white,
+          // color: Colors.white,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(top: 90, left: 15, right: 15),
               child: Card(
                 elevation: 8.0,
-                color: Colors.grey[200],
+                // color: Colors.grey[200],
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -139,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           child: const Text(
                             'SIGN IN',
-                            style: TextStyle(fontSize: 16.0, color: Colors.white),
+                            style: TextStyle(fontSize: 16.0),
                           ),
                         ),
                       ),
@@ -149,11 +154,16 @@ class _LoginPageState extends State<LoginPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Icon(Icons.error, color: Colors.red),
+                            const Icon(
+                              Icons.error, 
+                              color: Colors.red
+                            ),
                             const SizedBox(width: 5.0),
                             Text(
                               _errorMessage,
-                              style: const TextStyle(color: Colors.red),
+                              style: const TextStyle(
+                                color: Colors.red
+                              ),
                             ),
                           ],
                         ),

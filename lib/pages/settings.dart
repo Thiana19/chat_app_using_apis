@@ -1,36 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/models/profile_model.dart';
 import 'package:flutter_chat_app/pages/login.dart';
+import 'package:flutter_chat_app/services/profile_service.dart';
 
 class SettingsPage extends StatefulWidget {
+  final String token;
+
+  SettingsPage(this.token);
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
   bool isDarkModeEnabled = false;
-  String userName = 'Asif Ali';
-  String userEmail = 'asifmailed@gmail.com';
+  String userName = '';
+  String userEmail = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      final UserService userService = UserService(widget.token);
+      final UserModel user = await userService.getUserDetails();
+
+      setState(() {
+        userName = user.name;
+        userEmail = user.email;
+      });
+    } catch (error) {
+      print('Error loading user data: $error');
+    }
+  }
+
+  // void _updateTheme(bool isDarkModeEnabled) {
+  //   setState(() {
+  //     this.isDarkModeEnabled = isDarkModeEnabled;
+  //     // Update the app's theme based on the switch state
+  //     if (isDarkModeEnabled) {
+  //       // Apply dark theme
+  //       MyApp.setTheme(ThemeData.dark());
+  //     } else {
+  //       // Apply light theme
+  //       MyApp.setTheme(ThemeData.light());
+  //     }
+  //   });
+  // }
+
+
 
   @override
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.teal.withOpacity(0.1),
-      //   title: const Row(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: [
-      //       Text(
-      //         'Settings',
-      //         style: TextStyle(
-      //           fontWeight: FontWeight.bold,
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
       body: Container(
-        color: Colors.white,
         child: ListView(
           children: <Widget>[
             const SizedBox(height: 20),
@@ -38,7 +64,6 @@ class _SettingsPageState extends State<SettingsPage> {
             Card(
               elevation: 5,
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              color: Colors.white, 
               child: _buildAccountInfoListView(brightness: brightness),
             ),
             const SizedBox(height: 20),
@@ -46,7 +71,6 @@ class _SettingsPageState extends State<SettingsPage> {
             Card(
               elevation: 5,
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              color: Colors.white, 
               child: Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Column(
@@ -59,17 +83,13 @@ class _SettingsPageState extends State<SettingsPage> {
                       callback: () {
                         // print('Tap Settings Item 01');
                       },
-                      brightness: brightness,
+                      // brightness: brightness,
                     ),
                     _buildDarkModeSwitchItem(
                       title: 'Dark Mode',
-                      callback: () {
-                        setState(() {
-                          isDarkModeEnabled = !isDarkModeEnabled;
-                        });
-                      },
+                      onChanged: (bool) {},
                       isDarkModeEnabled: isDarkModeEnabled,
-                      brightness: brightness,
+                      // brightness: brightness,
                     ),
                     // Add more settings items here
                   ],
@@ -80,7 +100,6 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       bottomNavigationBar: Container(
-        color: Colors.white, 
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: ElevatedButton.icon(
@@ -94,16 +113,13 @@ class _SettingsPageState extends State<SettingsPage> {
             },
             icon: const Icon(
               Icons.logout,
-              color: Colors.red,
             ),
             label: const Text(
               'Logout',
               style: TextStyle(
-                color: Colors.red,
               ),
             ),
             style: ElevatedButton.styleFrom(
-              primary: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -119,16 +135,12 @@ class _SettingsPageState extends State<SettingsPage> {
     required String subtitle,
     required IconData icon,
     required Function() callback,
-    required Brightness brightness,
   }) {
     return Column(
       children: [
         ListTile(
           leading: Icon(
             icon,
-            color: brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
           ),
           title: Text(
             title,
@@ -141,15 +153,11 @@ class _SettingsPageState extends State<SettingsPage> {
             subtitle,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[600], // Customize the color here
             ),
           ),
           onTap: callback,
         ),
-        Divider(
-          color: brightness == Brightness.light
-              ? Colors.grey[300]
-              : Colors.grey[700],
+        const Divider(
           height: 1,
         ),
       ],
@@ -158,18 +166,14 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildDarkModeSwitchItem({
     required String title,
-    required Function() callback,
+    required Function(bool) onChanged,
     required bool isDarkModeEnabled,
-    required Brightness brightness,
   }) {
     return Column(
       children: [
         ListTile(
-          leading: Icon(
+          leading: const Icon(
             Icons.brightness_6,
-            color: brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
           ),
           title: Text(
             title,
@@ -181,22 +185,18 @@ class _SettingsPageState extends State<SettingsPage> {
           trailing: Switch(
             value: isDarkModeEnabled,
             onChanged: (value) {
-              setState(() {
-                isDarkModeEnabled = value;
-              });
-              callback();
+              // Call the callback function to update the theme
+              onChanged(value);
             },
           ),
         ),
-        Divider(
-          color: brightness == Brightness.light
-              ? Colors.grey[300]
-              : Colors.grey[700],
+        const Divider(
           height: 1,
         ),
       ],
     );
   }
+
 
   Widget _buildAccountInfoListView({required Brightness brightness}) {
     return ListView(
@@ -207,13 +207,11 @@ class _SettingsPageState extends State<SettingsPage> {
           title: 'Name',
           subtitle: userName,
           icon: Icons.person,
-          brightness: brightness,
         ),
         _buildAccountInfoItem(
           title: 'Email',
           subtitle: userEmail,
           icon: Icons.email,
-          brightness: brightness,
         ),
         // Add more account information items here
       ],
@@ -224,16 +222,12 @@ class _SettingsPageState extends State<SettingsPage> {
     required String title,
     required String subtitle,
     required IconData icon,
-    required Brightness brightness,
   }) {
     return Column(
       children: [
         ListTile(
           leading: Icon(
             icon,
-            color: brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
           ),
           title: Text(
             title,
@@ -246,18 +240,13 @@ class _SettingsPageState extends State<SettingsPage> {
             subtitle,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[600], // Customize the color here
             ),
           ),
           onTap: () {
-            // Handle account information item tap
             print('Tap Account Info Item $title');
           },
         ),
-        Divider(
-          color: brightness == Brightness.light
-              ? Colors.grey[300]
-              : Colors.grey[700],
+        const Divider(
           height: 1,
         ),
       ],

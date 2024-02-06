@@ -42,7 +42,7 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> with SingleTickerPr
       () => ChatRooms(),
       () => Contacts(widget.token),
       () => Channels(widget.token),
-      () => SettingsPage(),
+      () => SettingsPage(widget.token),
     ];
     _pageController = PageController(initialPage: _selectedIndex);
   }
@@ -153,7 +153,7 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> with SingleTickerPr
         children: _bodyView.map((widget) => widget()).toList(),
       ),
       bottomNavigationBar: Container(
-        color: Colors.white,
+        // color: Colors.white,
         height: 90,
         padding: const EdgeInsets.all(10),
         child: ClipRRect(
@@ -162,8 +162,8 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> with SingleTickerPr
             color: Colors.teal.withOpacity(0.1),
             child: TabBar(
               onTap: _onItemTapped,
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.blueGrey,
+              // labelColor: Colors.white,
+              // unselectedLabelColor: Colors.blueGrey,
               indicator: const UnderlineTabIndicator(
                 borderSide: BorderSide.none,
               ),
@@ -222,8 +222,9 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> with SingleTickerPr
   Widget ChatRooms() {
     return ListView(
       children: [
+        const SizedBox(height: 5),
         Container(
-          color: Colors.teal,
+          // color: Colors.teal,
           padding: const EdgeInsets.only(left: 15),
           height: 150,
           child: Column(
@@ -258,7 +259,7 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> with SingleTickerPr
           padding: const EdgeInsets.only(top: 5, left: 0, right: 20),
           height: MediaQuery.of(context).size.height - 150,
           decoration: const BoxDecoration(
-            color: Colors.white,
+            // color: Colors.white,
           ),
           child: Column(
             children: [
@@ -294,7 +295,7 @@ class _ChatRoomListPageState extends State<ChatRoomListPage> with SingleTickerPr
                                   child: Text(
                                     getInitials(room.name),
                                     style: const TextStyle(
-                                      color: Colors.white,
+                                      // color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
                                     ),
