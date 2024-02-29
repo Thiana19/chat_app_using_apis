@@ -10,6 +10,15 @@ The app is also available in dark mode.
 
 ## Screenshots
 
-![Alt text](screenshots/login.png) ![Alt text](screenshots/chats.png) ![Alt text](screenshots/chats.png)
-![Alt text](screenshots/contacts.png) ![Alt text](screenshots/channels.png) ![Alt text](screenshots/settings.png)
+<div style="display: flex; justify-content: space-between;">
+    <img src="screenshots/login.png" alt="Login" style="width: 30%;">
+    <img src="screenshots/chats.png" alt="Chats" style="width: 30%;">
+    <img src="screenshots/channels.png" alt="Channels" style="width: 30%;">
+</div>
+
+<div style="display: flex; justify-content: space-between;">
+    <img src="screenshots/contacts.png" alt="Contacts" style="width: 30%;">
+    <img src="screenshots/settings.png" alt="Settings" style="width: 30%;">
+    <!-- Add another image here if needed -->
+</div>
 
