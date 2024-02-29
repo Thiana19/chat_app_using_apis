@@ -9,7 +9,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-     final MaterialTheme materialTheme = MaterialTheme(ThemeData.light().textTheme);
+    final MaterialTheme materialTheme = MaterialTheme(ThemeData.light().textTheme);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ChatLaju',
