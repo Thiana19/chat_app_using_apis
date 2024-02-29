@@ -19,6 +19,11 @@ The app is also available in dark mode.
 <div style="display: flex; justify-content: space-between;">
     <img src="screenshots/contacts.png" alt="Contacts" style="width: 30%;">
     <img src="screenshots/settings.png" alt="Settings" style="width: 30%;">
-    <!-- Add another image here if needed -->
+    <img src="screenshots/inbox" alt="Settings" style="width: 30%;">
+</div>
+
+<div style="display: flex; justify-content: space-between;">
+    <img src="screenshots/login dark mode.png" alt="Contacts" style="width: 30%;">
+    <img src="screenshots/chats dark mode" alt="Settings" style="width: 30%;">
 </div>
 
