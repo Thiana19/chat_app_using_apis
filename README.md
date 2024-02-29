@@ -19,7 +19,7 @@ The app is also available in dark mode.
 <div style="display: flex; justify-content: space-between;">
     <img src="screenshots/channels.png" alt="Channels" style="width: 30%;">
     <img src="screenshots/settings.png" alt="Settings" style="width: 30%;">
-    <img src="screenshots/inbox.png" alt="inbox" style="width: 30%;">
+    <img src="screenshots/Screenshot_1709178228.png" alt="inbox" style="width: 30%;">
 </div>
 
 <div style="display: flex; justify-content: space-between;">
