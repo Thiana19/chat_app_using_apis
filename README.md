@@ -8,4 +8,4 @@ This project is a starting point for a Flutter application.
 
 ## Screenshots
 
-![Alt text](chat_laju/screenshots/login.png)
+![Alt text](screenshots/login.png)
