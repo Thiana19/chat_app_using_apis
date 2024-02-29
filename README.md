@@ -10,8 +10,6 @@ The app is also available in dark mode.
 
 ## Screenshots
 
-![Alt text](screenshots/login.png)
-![Alt text](screenshots/chats.png)
-![Alt text](screenshots/contacts.png)
-![Alt text](screenshots/channels.png)
-![Alt text](screenshots/settings.png)
+![Alt text](screenshots/login.png) ![Alt text](screenshots/chats.png) ![Alt text](screenshots/chats.png)
+![Alt text](screenshots/contacts.png) ![Alt text](screenshots/channels.png) ![Alt text](screenshots/settings.png)
+
